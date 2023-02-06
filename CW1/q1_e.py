@@ -36,6 +36,7 @@ if __name__ == '__main__':
     
     # Show the graphics
     airport_environment.show_graphics(True)
+    airport_environment.show_verbose_graphics(False)
     
     # First specify the start location of the robot
     action = (HighLevelActionType.TELEPORT_ROBOT_TO_NEW_POSITION, (0, 0))

@@ -18,6 +18,7 @@ if __name__ == '__main__':
     # Get the map for the scenario
     #airport_map, drawer_height = three_row_scenario()
     airport_map, drawer_height = full_scenario()
+    drawer_height = 600
     
     # Set up the environment for the robot driving around
     airport_environment = LowLevelEnvironment(airport_map)
@@ -27,6 +28,7 @@ if __name__ == '__main__':
 
     # Create the policy iterator
     policy_solver = PolicyIterator(airport_environment)
+    policy_solver.set_gamma(.9)
 
     # Set up initial state
     policy_solver.initialize()
