@@ -170,25 +170,22 @@ class PolicyIterator(DynamicProgrammingBase):
                 old_action = self._pi.action(x,y)
 
                 # find best action
-                i = 0
                 for action in LowLevelActionType:
+                    # only use 8 direcitons
                     if action.value > 7:
                         continue
                     # Compute p(s',r|s,a)
                     s_prime, r, p = environment.next_state_and_reward_distribution(cell, action)
-                    
                     # Sum over the rewards to find action value function
                     q = 0
                     for t in range(len(p)):
                         sc = s_prime[t].coords()
-                        q += p[t] * (r[t] + self._gamma * self._v.value(sc[0], sc[1]))  
-                    if i == 0:
+                        q = q + p[t] * (r[t] + self._gamma * self._v.value(sc[0], sc[1]))  
+                    if action.value == 0:
                         q_max = q
                         best_action = action
                     elif q > q_max:
                         best_action, q_max = action, q
-
-                    i += 1
                     
                 # update best action
                 self._pi.set_action(x,y,best_action)

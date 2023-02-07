@@ -5,6 +5,7 @@ Created on 29 Jan 2022
 '''
 
 from .dynamic_programming_base import DynamicProgrammingBase
+from p2.low_level_actions import LowLevelActionType
 
 # This class ipmlements the value iteration algorithm
 
@@ -51,13 +52,106 @@ class ValueIterator(DynamicProgrammingBase):
 
         # This method returns no value.
         # The method updates self._pi
-        pass
 
+        # Get the environment and map
+        environment = self._environment
+        map = environment.map()
         
+        # Execute the loop at least once
+        
+        iteration = 0
+        
+        while True:
+            
+            delta = 0
+
+            # Sweep systematically over all the states            
+            for x in range(map.width()):
+                for y in range(map.height()):
+                    
+                    if map.cell(x, y).is_obstruction() or map.cell(x, y).is_terminal():
+                        continue
+                                       
+                    # Unfortunately the need to use coordinates is a bit inefficient, due
+                    # to legacy code
+                    cell = (x, y)
+                    
+                    # Get the previous value function
+                    old_v = self._v.value(x, y)
+
+                    # find best action
+                    for action in LowLevelActionType:
+                        if action.value > 7:
+                            continue
+                        # Compute p(s',r|s,a)
+                        s_prime, r, p = environment.next_state_and_reward_distribution(cell, action)
+                        
+                        # Sum over the rewards
+                        new_v = 0
+                        for t in range(len(p)):
+                            sc = s_prime[t].coords()
+                            new_v = new_v + p[t] * (r[t] + self._gamma * self._v.value(sc[0], sc[1]))                        
+                        if action.value == 0:
+                            best_new_v = new_v
+                        elif new_v > best_new_v:
+                            best_new_v = new_v
+
+                    # Set the new value in the value function
+                    self._v.set_value(x, y, best_new_v)
+                                        
+                    # Update the maximum deviation
+                    delta = max(delta, abs(old_v-best_new_v))
+ 
+            # Increment the policy evaluation counter        
+            iteration += 1
+                       
+            print(f'Finished policy evaluation iteration {iteration}')
+            
+            # Terminate the loop if the change was very small
+            if delta < self._theta:
+                break
+                
+            # Terminate the loop if the maximum number of iterations is met. Generate
+            # a warning
+            if iteration >= self._max_optimal_value_function_iterations:
+                print('Maximum number of iterations exceeded')
+                break
+        pass
 
     def _extract_policy(self):
 
         # This method returns no value.
         # The policy is in self._pi
 
-        pass
+        # Get the environment and map
+        environment = self._environment
+        map = environment.map()
+        
+        for x in range(map.width()):
+            for y in range(map.height()):
+
+                if map.cell(x, y).is_obstruction() or map.cell(x, y).is_terminal():
+                        continue
+
+                cell = (x,y)
+
+                # find best action
+                for action in LowLevelActionType:
+                    if action.value > 7:
+                        continue
+                    # Compute p(s',r|s,a)
+                    s_prime, r, p = environment.next_state_and_reward_distribution(cell, action)
+                    
+                    # Sum over the rewards to find action value function
+                    q = 0
+                    for t in range(len(p)):
+                        sc = s_prime[t].coords()
+                        q += p[t] * (r[t] + self._gamma * self._v.value(sc[0], sc[1]))  
+                    if action.value == 0:
+                        q_max = q
+                        best_action = action
+                    elif q > q_max:
+                        best_action, q_max = action, q
+
+                # update best action
+                self._pi.set_action(x,y,best_action)
