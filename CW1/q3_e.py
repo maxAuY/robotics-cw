@@ -14,23 +14,31 @@ from generalized_policy_iteration.value_function_drawer import ValueFunctionDraw
 from p2.low_level_environment import LowLevelEnvironment
 from p2.low_level_policy_drawer import LowLevelPolicyDrawer
 
+import time
+
 if __name__ == '__main__':
     
+    start_time = time.time()
+
     # Get the map for the scenario
     #airport_map, drawer_height = three_row_scenario()
     airport_map, drawer_height = full_scenario()
+    drawer_height = 300
     
     # Set up the environment for the robot driving around
     airport_environment = LowLevelEnvironment(airport_map)
     
     # Configure the process model
-    airport_environment.set_nominal_direction_probability(1)
+    airport_environment.set_nominal_direction_probability(0.8)
 
     # Create the policy iterator
     policy_solver = PolicyIterator(airport_environment)
 
     # Q3e:
     # Investigate different parameters
+    policy_solver.set_gamma(1)
+    policy_solver.set_max_policy_evaluation_steps_per_iteration(10)
+    policy_solver.set_theta(1e-6)
 
     # Set up initial state
     policy_solver.initialize()
@@ -43,10 +51,13 @@ if __name__ == '__main__':
     policy_solver.set_value_function_drawer(value_function_drawer)
         
     # Compute the solution
-    v, pi = policy_solver.solve_policy()
+    v, pi = policy_solver.solve_policy()    
+    
+    end_time = time.time()
+    print('total time elapsed: ', end_time-start_time)
     
     # Save screen shot; this is in the current directory
-    policy_drawer.save_screenshot("policy_iteration_results.jpg")
-    
+    # policy_drawer.save_screenshot("policy_iteration_results.jpg")
+
     # Wait for a key press
     value_function_drawer.wait_for_key_press()

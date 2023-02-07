@@ -24,7 +24,7 @@ class PolicyIterator(DynamicProgrammingBase):
         # The maximum number of times the policy evaluation iteration
         # is carried out.
         self._max_policy_iteration_steps = 1000
-        
+
 
     # Perform policy evaluation for the current policy, and return
     # a copy of the state value function. Since this is a deep copy, you can modify it
@@ -67,6 +67,7 @@ class PolicyIterator(DynamicProgrammingBase):
                 self._value_drawer.update()
                 
             policy_iteration_step += 1
+            print('number of policy iterations: ', policy_iteration_step)
 
         # Draw one last time to clear any transients which might
         # draw changes
