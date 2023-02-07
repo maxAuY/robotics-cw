@@ -51,12 +51,13 @@ class ValueIterator(DynamicProgrammingBase):
 
         # This method returns no value.
         # The method updates self._pi
+        pass
 
-        raise NotImplementedError()
+        
 
     def _extract_policy(self):
 
         # This method returns no value.
         # The policy is in self._pi
 
-        raise NotImplementedError()
+        pass
