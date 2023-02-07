@@ -102,8 +102,8 @@ class LowLevelEnvironment(Env):
         p = []        
         
         # Debugging
-        # if print_cell:
-        #     print(f'action={str(DrivingActionType(a))}')
+        if print_cell:
+            print(f'action={str(a)}')
         
         # First handle the easy cases
         

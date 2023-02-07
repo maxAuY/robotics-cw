@@ -7,6 +7,7 @@ Created on 29 Jan 2022
 # This class implements the policy iterator algorithm.
 
 import copy
+from p2.low_level_actions import LowLevelActionType
 
 from .dynamic_programming_base import DynamicProgrammingBase
 
@@ -154,9 +155,47 @@ class PolicyIterator(DynamicProgrammingBase):
         environment = self._environment
         map = environment.map()
 
-        raise NotImplementedError()
-        
         policy_stable = True
+        
+        for x in range(map.width()):
+            for y in range(map.height()):
+
+                if map.cell(x, y).is_obstruction() or map.cell(x, y).is_terminal():
+                        continue
+
+                cell = (x,y)
+
+                # store old action
+                old_action = self._pi.action(x,y)
+
+                # find best action
+                i = 0
+                for action in LowLevelActionType:
+                    if action.value > 7:
+                        continue
+                    # Compute p(s',r|s,a)
+                    s_prime, r, p = environment.next_state_and_reward_distribution(cell, action)
+                    
+                    # Sum over the rewards to find action value function
+                    q = 0
+                    for t in range(len(p)):
+                        sc = s_prime[t].coords()
+                        q += p[t] * (r[t] + self._gamma * self._v.value(sc[0], sc[1]))  
+                    if i == 0:
+                        q_max = q
+                        best_action = action
+                    elif q > q_max:
+                        best_action, q_max = action, q
+
+                    i += 1
+                    
+                # update best action
+                self._pi.set_action(x,y,best_action)
+
+                # return false if the action was changed
+                if best_action != old_action:
+                    policy_stable = False
+
 
         # Return true if the policy is stable (=isn't changing)     
         return policy_stable
