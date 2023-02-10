@@ -17,6 +17,7 @@ if __name__ == '__main__':
     
     # Create the scenario
     airport_map, drawer_height = full_scenario()
+    airport_map.set_use_cell_type_traversability_costs(False)
 
     print(airport_map)
     
@@ -31,7 +32,7 @@ if __name__ == '__main__':
     # Evaluate breadth and depth first algorithms.
     # Check the implementation of the environment
     # to see how the planner type is used.
-    airport_environment = HighLevelEnvironment(airport_map, PlannerType.BREADTH_FIRST)
+    airport_environment = HighLevelEnvironment(airport_map, PlannerType.DEPTH_FIRST)
     
     # Set to this to True to generate the search grid and
     # show graphics. If you set this to false, the
@@ -61,7 +62,9 @@ if __name__ == '__main__':
 
     bin_number = 1
     total_cells_visited = 0
-    total_cost = 0    
+    total_cost = 0  
+    all_path_costs = []  
+    all_cells_visited = []
 
     for rubbish_bin in all_rubbish_bins:
             action = (HighLevelActionType.DRIVE_ROBOT_TO_NEW_POSITION, rubbish_bin.coords())
@@ -70,9 +73,14 @@ if __name__ == '__main__':
             total_cells_visited += info.number_of_cells_visited
             total_cost -= reward
 
-            screen_shot_name = f'bin_{bin_number:02}.pdf'
-            airport_environment.search_grid_drawer().save_screenshot(screen_shot_name)
+            all_path_costs.append((bin_number,-reward))
+            all_cells_visited.append((bin_number,info.number_of_cells_visited))
+
+            # screen_shot_name = f'bin_{bin_number:02}.pdf'
+            # airport_environment.search_grid_drawer().save_screenshot(screen_shot_name)
             bin_number += 1
+
+            print('number of cells in path is: ', info.number_of_waypoints)
     
             try:
                 input("Press enter in the command window to continue.....")
@@ -83,3 +91,5 @@ if __name__ == '__main__':
     
     print('total cost is: ',total_cost)
     print('total cells visited is: ',total_cells_visited)  
+    print('all path costs: ', all_path_costs)
+    print('all cells visited: ', all_cells_visited)

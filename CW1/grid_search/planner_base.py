@@ -290,12 +290,14 @@ class PlannerBase(object):
         
         for cell in path.waypoints:
             if cell.parent is not None:
-                parent_coords = cell.parent.coords()
-                cell_coords = cell.coords()
-                dX = parent_coords[0] - cell_coords[0]
-                dY = parent_coords[1] - cell_coords[1]                
-                path_cost = path_cost + math.sqrt(dX * dX + dY * dY)               
+                # parent_coords = cell.parent.coords()
+                # cell_coords = cell.coords()
+                # dX = parent_coords[0] - cell_coords[0]
+                # dY = parent_coords[1] - cell_coords[1]                
+                # path_cost = path_cost + math.sqrt(dX * dX + dY * dY)
+                path_cost += self.compute_l_stage_additive_cost(cell.parent,cell)               
 
+        path.number_of_waypoints = len(path.waypoints)
         path.path_travel_cost = path_cost
 
         # Return the path

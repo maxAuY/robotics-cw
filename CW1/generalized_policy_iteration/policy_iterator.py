@@ -147,10 +147,6 @@ class PolicyIterator(DynamicProgrammingBase):
                 break
 
     def _improve_policy(self):
-       
-        # Q3c:
-        # Implement the policy improvement step.
-        # This step will write the update to self._pi
 
         # Get the environment and map
         environment = self._environment

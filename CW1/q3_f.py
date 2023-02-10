@@ -52,8 +52,8 @@ if __name__ == '__main__':
     end_time = time.time()
     print('total time elapsed: ', end_time-start_time)
     
-    # Save screen shot; this is in the current directory
-    policy_drawer.save_screenshot("value_iterator_results.eps")
+    # # Save screen shot; this is in the current directory
+    # policy_drawer.save_screenshot("value_iterator_results.eps")
     
     # Wait for a key press
     value_function_drawer.wait_for_key_press()

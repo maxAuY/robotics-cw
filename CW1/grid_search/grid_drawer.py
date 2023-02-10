@@ -1,5 +1,5 @@
 import locale
-# import ghostscript
+import ghostscript
 import pyscreenshot as ImageGrab
 
 from .graphics import *
@@ -71,7 +71,7 @@ class GridDrawer(object):
             encoding = locale.getpreferredencoding()
             args = [a.encode(encoding) for a in args]
 
-            # ghostscript.Ghostscript(*args)
+            ghostscript.Ghostscript(*args)
 
             # Delete the temporary file
             os.remove("tmp.ps")
