@@ -51,19 +51,32 @@ if __name__ == '__main__':
     # Modify to collect statistics for assessing algorithms
     # Now go through them and plan a path sequentially
 
+    bin_number = 1
     total_cells_visited = 0
     total_cost = 0
+    all_path_costs = []  
+    all_cells_visited = []
+
     for rubbish_bin in all_rubbish_bins:
         action = (HighLevelActionType.DRIVE_ROBOT_TO_NEW_POSITION, rubbish_bin.coords())
         observation, reward, done, info = airport_environment.step(action)
-
+        
         total_cells_visited += info.number_of_cells_visited
         total_cost -= reward 
 
+        all_path_costs.append((bin_number,-reward))
+        all_cells_visited.append((bin_number,info.number_of_cells_visited))
+
+        screen_shot_name = f'bin_{bin_number:02}.pdf'
+        # airport_environment.search_grid_drawer().save_screenshot(screen_shot_name)
+        
+        bin_number += 1
         try:
             input("Press enter in the command window to continue.....")
         except SyntaxError:
             pass  
-    
+     
     print('total cost is: ',total_cost)
-    print('total cells visited is: ',total_cells_visited) 
+    print('total cells visited is: ',total_cells_visited)   
+    print('all path costs: ', all_path_costs)
+    print('all cells visited: ', all_cells_visited)
