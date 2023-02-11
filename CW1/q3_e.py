@@ -34,9 +34,9 @@ if __name__ == '__main__':
 
     # Q3e:
     # Investigate different parameters
-    policy_solver.set_gamma(0.999)
+    policy_solver.set_gamma(1)
     policy_solver.set_max_policy_evaluation_steps_per_iteration(5)
-    policy_solver.set_theta(1e-6)
+    policy_solver.set_theta(1e-2)
 
     # Set up initial state
     policy_solver.initialize()
@@ -59,7 +59,7 @@ if __name__ == '__main__':
     print('run time: ', end_time-start_time)
     
     # Save screen shot; this is in the current directory
-    policy_drawer.save_screenshot("policy_iteration_results_0.999.pdf")
+    # policy_drawer.save_screenshot("policy_iteration_results_1e-5.pdf")
 
     # Wait for a key press
     value_function_drawer.wait_for_key_press()

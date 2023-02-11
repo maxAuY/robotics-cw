@@ -4,7 +4,6 @@ Created on 2 Jan 2022
 @author: ucacsjj
 '''
 
-from math import sqrt
 from queue import PriorityQueue
 from heapq import heapify
 
@@ -55,7 +54,7 @@ class DijkstraPlanner(PlannerBase):
             for i in range(self.priority_queue._qsize()):
                 
                 # remove old entry
-                cell_q = self.priority_queue.queue[i]
+                cell_q = queue[i]
                 if cell_q[1] is cell:
                     del queue[i]
                     heapify(queue)
