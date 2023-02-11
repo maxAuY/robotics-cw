@@ -14,6 +14,8 @@ from generalized_policy_iteration.value_function_drawer import ValueFunctionDraw
 from p2.low_level_environment import LowLevelEnvironment
 from p2.low_level_policy_drawer import LowLevelPolicyDrawer
 
+import time
+
 if __name__ == '__main__':
     
     # Get the map for the scenario
@@ -25,7 +27,7 @@ if __name__ == '__main__':
     
     # Q3d:
     # Configure the process model using different probabilities
-    airport_environment.set_nominal_direction_probability(1)
+    airport_environment.set_nominal_direction_probability(0.9)
 
     # Note that you can create multiple instances of the same object, with different
     # settings, and run them in the same programme. Therefore, you do not need to
@@ -44,11 +46,14 @@ if __name__ == '__main__':
     value_function_drawer = ValueFunctionDrawer(policy_solver.value_function(), drawer_height)
     policy_solver.set_value_function_drawer(value_function_drawer)
         
+    time_start = time.time()
     # Compute the solution
     v, pi = policy_solver.solve_policy()
+    time_end = time.time()
+    print('time to finish: ', time_end-time_start)
     
     # Save screen shot; this is in the current directory
-    policy_drawer.save_screenshot("policy_iteration_results.jpg")
+    # policy_drawer.save_screenshot("policy_iteration_results_0.3.pdf")
     
     # Wait for a key press
     value_function_drawer.wait_for_key_press()

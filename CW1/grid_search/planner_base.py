@@ -116,9 +116,9 @@ class PlannerBase(object):
         self.push_back_candidate_cell_if_valid(cell, cells, 1, 1)
         self.push_back_candidate_cell_if_valid(cell, cells, 0, 1)
         self.push_back_candidate_cell_if_valid(cell, cells, -1, 1)
-        self.push_back_candidate_cell_if_valid(cell, cells, -1, 0)
         self.push_back_candidate_cell_if_valid(cell, cells, -1, -1)
-
+        self.push_back_candidate_cell_if_valid(cell, cells, -1, 0)
+        
         return cells
 
     # This helper method checks if the robot, at cell.coords, can move
