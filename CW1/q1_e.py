@@ -65,8 +65,8 @@ if __name__ == '__main__':
         total_cells_visited += info.number_of_cells_visited
         total_cost -= reward 
 
-        all_path_costs.append((bin_number,-reward))
-        all_cells_visited.append((bin_number,info.number_of_cells_visited))
+        all_path_costs.append(round(-reward,3))
+        all_cells_visited.append((info.number_of_cells_visited))
         
         screen_shot_name = f'bin_{bin_number:02}.pdf'
         # airport_environment.search_grid_drawer().save_screenshot(screen_shot_name)
