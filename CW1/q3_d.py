@@ -20,14 +20,14 @@ if __name__ == '__main__':
     
     # Get the map for the scenario
     airport_map, drawer_height = full_scenario()
-    drawer_height = 300
+    # drawer_height = 300
     
     # Set up the environment for the robot driving around
     airport_environment = LowLevelEnvironment(airport_map)
     
     # Q3d:
     # Configure the process model using different probabilities
-    airport_environment.set_nominal_direction_probability(0.8)
+    airport_environment.set_nominal_direction_probability(0.3)
 
     # Note that you can create multiple instances of the same object, with different
     # settings, and run them in the same programme. Therefore, you do not need to
@@ -53,7 +53,8 @@ if __name__ == '__main__':
     print('run time: ', time_end-time_start)
     
     # Save screen shot; this is in the current directory
-    policy_drawer.save_screenshot("policy_iteration_results_0.8.pdf")
+    policy_drawer.save_screenshot("policy_iteration_results_0.3.pdf")
+    value_function_drawer.save_screenshot('value_iteration_results_0.3.pdf')
     
     # Wait for a key press
     value_function_drawer.wait_for_key_press()

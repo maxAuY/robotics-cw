@@ -116,7 +116,6 @@ class ValueIterator(DynamicProgrammingBase):
             if iteration >= self._max_optimal_value_function_iterations:
                 print('Maximum number of iterations exceeded')
                 break
-        pass
 
     def _extract_policy(self):
 

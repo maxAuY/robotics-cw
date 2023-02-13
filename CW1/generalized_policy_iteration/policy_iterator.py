@@ -25,7 +25,8 @@ class PolicyIterator(DynamicProgrammingBase):
         # is carried out.
         self._max_policy_iteration_steps = 1000
 
-
+    def set_max_policy_iteration_steps(self,_max_policy_iteration_steps):
+        self._max_policy_iteration_steps = _max_policy_iteration_steps
     # Perform policy evaluation for the current policy, and return
     # a copy of the state value function. Since this is a deep copy, you can modify it
     # however you like.

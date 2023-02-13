@@ -50,10 +50,10 @@ if __name__ == '__main__':
 
     # stop timing
     end_time = time.time()
-    print('total time elapsed: ', end_time-start_time)
+    print('run time: ', end_time-start_time)
     
     # Save screen shot; this is in the current directory
-    # policy_drawer.save_screenshot("value_iterator_results.eps")
+    # policy_drawer.save_screenshot("value_iteration_results.eps")
     
     # Wait for a key press
     value_function_drawer.wait_for_key_press()

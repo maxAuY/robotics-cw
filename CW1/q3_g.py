@@ -33,8 +33,9 @@ if __name__ == '__main__':
     
     # Create the policy iterator
     policy_solver = PolicyIterator(airport_environment)
-
-    policy_solver.set_max_policy_evaluation_steps_per_iteration(10)
+    policy_solver.set_max_policy_evaluation_steps_per_iteration(5)
+    # reduce maximum number of iterations to reduce time allocated
+    # policy_solver.set_max_policy_iteration_steps(13)
     
     # Set up initial state
     policy_solver.initialize()
@@ -54,18 +55,18 @@ if __name__ == '__main__':
 
     # stop timing policy iterator
     end_time = time.time()
-    print('total time for policy iterator: ', end_time-start_time)
+    policy_time = end_time-start_time
     
     # # Save screen shot; this is in the current directory
     # policy_drawer.save_screenshot("policy_iteration_results.pdf")
-    
-    # Wait for a key press
-    value_function_drawer.wait_for_key_press()
+    # value_function_drawer.save_screenshot('policy_iteration_values.pdf')
     
     # Q3i: Add code to evaluate value iteration down here.
     
     # Create the policy iterator
     policy_solver = ValueIterator(airport_environment)
+    # reduce max number of iterations for limiting time
+    # policy_solver.set_max_optimal_value_function_iterations(57)
     
     # Set up initial state
     policy_solver.initialize()
@@ -85,11 +86,13 @@ if __name__ == '__main__':
 
     # stop timing
     end_time = time.time()
-    print('total time for value iterator: ', end_time-start_time)
+    value_time = end_time-start_time
     
-    # # Save screen shot; this is in the current directory
-    # policy_drawer.save_screenshot("value_iterator_results.eps")
-    
-    # Wait for a key press
-    value_function_drawer.wait_for_key_press()
-    
+    # Save screen shot; this is in the current directory
+    # policy_drawer.save_screenshot("value_iteration_results.pdf")
+    # value_function_drawer.save_screenshot("value_iteration_values.pdf")
+
+    print('total time for policy iterator: ', policy_time)
+    print('total time for value iterator: ', value_time)
+
+    policy_drawer.wait_for_key_press()
