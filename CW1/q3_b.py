@@ -43,9 +43,10 @@ if __name__ == '__main__':
 
     # Run the evaluator repeatedly. This lets you see how the value changes
     # over time.    
-    for steps in range(1000):
+    for steps in range(100):
         policy_solver.evaluate_policy()
         value_function_drawer.update()
-     
+    
+    value_function_drawer.save_screenshot('converged_value_function.pdf')
     # Wait for a final key press
     value_function_drawer.wait_for_key_press()
